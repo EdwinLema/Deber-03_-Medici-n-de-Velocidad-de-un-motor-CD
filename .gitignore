@@ -1,0 +1,116 @@
+//UNIVERSIDAD TECNICA DEL NORTE
+//CARRERA DE INGENIERIAS EN CIENCIAS APLICADAS
+// Edwin Lema Vega
+//14 de Noviembre del 2016.
+// MEDIDOR DE VELOCIDAD
+////////////////////////////////////////////////////////////////////////////////////////
+//Inicialización de variables/pines.
+int A = 13;
+int B = 12;
+int C = 11;
+int D = 10;
+int valor_cad;
+int unidades = 9;
+int decenas = 8;
+int motor =6;
+// Inicializacion de contadores.
+int cont_decena = 0;
+int cont_unidad = 0;
+void setup() {
+  // put your setup code here, to run once:
+  pinMode (A, OUTPUT);          // pin 13 salida.
+  pinMode (B, OUTPUT);          // pin 12 salida.
+  pinMode (C, OUTPUT);          // pin 11 salida.
+  pinMode (D, OUTPUT);          // pin 10 salida.
+  pinMode(motor, OUTPUT);       // pin 7 salida.
+  pinMode (unidades, OUTPUT);   // pin 9 salida.
+  pinMode (decenas, OUTPUT);    // pin 8 salida.
+}
+void loop() {
+  valor_cad = analogRead(0);                    // valor_convertidorAnalogoDigital lee el valor del pin de entrada analogica (1023).
+  analogWrite(motor,valor_cad/4);               // Escribe el valor analogico por ancho de pulso del motor y convierte el valor dividiendo para 4.
+  delay(100);                                   // retardo
+  valor_cad = map (valor_cad, 0, 1023, 0, 99);  // proceso de conversion de 0-1023 a 0-99.
+  cont_decena = valor_cad / 10;                 // Obtener la decena del valor ingresado por el motor.
+  cont_unidad = valor_cad - (cont_decena * 10); // Obtener la  unidad del valor ingresado por el motor.
+  digitalWrite(unidades, HIGH);                 // Unidades se mantiene en alto.
+  digitalWrite(decenas, LOW);                   // decenas se mantiene en bajo.
+  dis(cont_unidad);                             // Realiza la funcion dis(para el contador unidad)
+  delay(500);                                   // Retardo.
+  digitalWrite(unidades, LOW);                  // Unidades se mantiene en bajo.
+  digitalWrite(decenas, HIGH);                  // Decenas se mantiene en alto.
+  dis(cont_decena);                             // Realiza la funcion dis(para el contador de decenas)
+  delay(500);                                   // retardo
+}
+void dis (int numero) {                         // Declaramos la funcion dis para obtener los numeros del 0 al 9.
+  switch (numero) {                             // Permite hacer una serie de comparaciones sin necesidad de utilizar if´s
+    case 0:                                     // caso 0, si numero =0  se ejecuta esto.
+      digitalWrite(A, LOW);
+      digitalWrite(B, LOW);
+      digitalWrite(C, LOW);
+      digitalWrite(D, LOW);
+      break;                                    // permite salir del caso
+    case 1:                                     // si numero=1 se jecuta esto 
+      digitalWrite(A, HIGH);
+      digitalWrite(B, LOW);
+      digitalWrite(C, LOW);
+      digitalWrite(D, LOW);
+      break;                                    // permite salir del caso.
+    case 2:                                     // si numero=2 se ejecuta esto.
+      digitalWrite(A, LOW);
+      digitalWrite(B, HIGH);
+      digitalWrite(C, LOW);
+      digitalWrite(D, LOW);
+      break;                                    // permite salir del caso.
+    case 3:                                     // si numero =3 se ejecuta esto.
+      digitalWrite(A, HIGH);
+      digitalWrite(B, HIGH);
+      digitalWrite(C, LOW);
+      digitalWrite(D, LOW);
+      break;                                    // permite salir del caso.
+    case 4:                                     // si numero = 4 se ejecuta esto.
+      digitalWrite(A, LOW);
+      digitalWrite(B, LOW);
+      digitalWrite(C, HIGH);
+      digitalWrite(D, LOW);
+      break;                                    // permite salir del caso.
+
+    case 5:                                     // si numero = 5 se ejecuta esto.
+
+      digitalWrite(A, HIGH);
+      digitalWrite(B, LOW);
+      digitalWrite(C, HIGH);
+      digitalWrite(D, LOW);
+      break;                                    // permite salir del caso.
+
+
+    case 6:                                     // si numero = 6 se ejecuta esto.
+      digitalWrite(A, LOW);
+      digitalWrite(B, HIGH);
+      digitalWrite(C, HIGH);
+      digitalWrite(D, LOW);
+      break;                                    // permite salir del caso.
+
+    case 7:                                     // si numero= 7 se ejecuta esto.
+      digitalWrite(A, HIGH);
+      digitalWrite(B, HIGH);
+      digitalWrite(C, HIGH);
+      digitalWrite(D, LOW);
+      break;                                    // permite salir del caso.
+
+    case 8:                                     // si numero = 8 se ejecuta esto
+      digitalWrite(A, LOW);
+      digitalWrite(B, LOW);
+      digitalWrite(C, LOW);
+      digitalWrite(D, HIGH);
+      break;                                    // permite salir del caso.
+
+    case 9:                                     // si numero = 9 se ejecuta esto.
+      digitalWrite(A, HIGH);
+      digitalWrite(B, LOW);
+      digitalWrite(C, LOW);
+      digitalWrite(D, HIGH);
+      break;                                    // permite salir del caso 
+
+  }
+}
